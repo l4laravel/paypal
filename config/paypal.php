@@ -4,9 +4,6 @@
  */
 
 return [
-    // Sandbox
-    'sandbox.client_id' => env('PAYPAL_SANDBOX_CLIENT_ID'),
-    'sandbox.secret' => env('PAYPAL_SANDBOX_SECRET'),
 
     // Live
     'live.client_id' => env('PAYPAL_LIVE_CLIENT_ID'),
@@ -15,12 +12,20 @@ return [
     // Paypal SDK Configurations
 
     'settings' => [
+
+        // Sandbox
+        'client_id' => env("PAYPAL_SANDBOX_CLIENT_ID"),
+        'secret' => env("PAYPAL_SANDBOX_SECRET"),
+
+
+
+
         // Mode (live or sandbox)
-        'mode' => env('PAypal_mode','sandbox'),
+        'mode' => env('PAYPAL_MODE','sandbox'),
         // Connection timeout
         'http.ConnectionTimeOut' => 3000,
         // Logs
-        'log.LongEnabled' => true,
+        'log.LogEnabled' => true,
         'log.FileName' => storage_path().'/logs/paypal.log',
         // Level: Debug info error
         'log.LogLevel' => 'DEBUG'

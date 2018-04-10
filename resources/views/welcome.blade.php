@@ -82,13 +82,14 @@
                     Laravel
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <form action="{{route('pay')}}" method="post">
+                    {{csrf_field()}}
+                    <input type="text" name="price" value="50">
+                    <input type="text" name="name">
+                    <input type="submit" value="submit">
+
+
+                </form>
             </div>
         </div>
     </body>

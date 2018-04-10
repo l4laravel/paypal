@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('pay','PaymentController@payWithPaypal')->name('pay');
+Route::get('status','PaymentController@status')->name('status');
+Route::get('canceled','PaymentController@canceled')->name('canceled');
+
