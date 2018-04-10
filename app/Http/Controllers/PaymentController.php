@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use PayPal\Api\PaymentExecution;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
 
@@ -90,8 +91,8 @@ class PaymentController extends Controller
             ->setPayer($payer)
             ->setRedirectUrls($redirectUrls)
             ->setTransactions(array($transation));
-        
-  try{
+
+        try{
             $payment->create($this->apiContext);
         }catch (\PayPal\Exception\PPConnectionException $ex){
       echo '<pre>';print_r(json_decode($ex->getData()));exit;
@@ -103,14 +104,35 @@ class PaymentController extends Controller
         return redirect($paymentLink);
     }
 
-    public function status()
+    public function status(Request $request)
     {
-        return 'status';
+
+       if (empty($request->PayerID) || empty($request->token)){
+
+            return redirect('/')->with('message','Payment Failed');
+       }
+
+       $paymentId = $request->get('paymentId');
+       $payment = Payment::get($paymentId, $this->apiContext);
+       $execution = new PaymentExecution();
+       $execution->setPayerId($request->PayerID);
+       $result = $payment->execute($execution, $this->apiContext);
+
+       var_dump($result);
+       if ($result->getState() == 'approved'){
+           return 'thanks for buy';
+       }else{
+
+           return redirect('/')->with('message','Payment Failed');
+
+       }
+
     }
 
-    public function conceled()
+    public function canceled()
     {
-        return 'Payment canceled. No Worries';
+        return redirect('/')->with('message','Payment Failed');
+
     }
 
 
